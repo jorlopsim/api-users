@@ -1,4 +1,4 @@
-CREATE TABLE usuario (
+create table if not exists usuario (
     id_usuario serial PRIMARY KEY,
     ci VARCHAR(15) NOT NULL,
     nombre VARCHAR(50) NOT NULL,

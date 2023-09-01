@@ -12,7 +12,7 @@ const pool = new Pool({
   });
 
   // Modelo
-  class Model {
+  class UsrModel {
     async getTodosUsr() {
         const { rows } = await pool.query("select * from usuario;");
         return rows;
@@ -51,7 +51,7 @@ const pool = new Pool({
     }
     
     // Controlador
-    class Controller {
+    class UsrController {
         constructor(model) {
             this.model = model;
           }
@@ -83,6 +83,9 @@ const pool = new Pool({
             const primer_apellido=req.body.primer_apellido;
             const segundo_apellido=req.body.segundo_apellido;
             const fecha_nacimiento=req.body.fecha_nacimiento;
+            if (!ci || !nombre || !primer_apellido || !segundo_apellido || !fecha_nacimiento)  {
+              res.status(400).send('Debe completar todos los campos requeridos');
+            }
             await this.model.addUsr(ci,nombre,primer_apellido,segundo_apellido,fecha_nacimiento);
             res.sendStatus(201);
           }
@@ -94,6 +97,9 @@ const pool = new Pool({
             const primer_apellido=req.body.primer_apellido;
             const segundo_apellido=req.body.segundo_apellido;
             const fecha_nacimiento=req.body.fecha_nacimiento;
+            if (!ci || !nombre || !primer_apellido || !segundo_apellido || !fecha_nacimiento)  {
+              res.status(400).send('Debe completar todos los campos requeridos');
+            }
             await this.model.updateUsr(id_usuario,ci,nombre,primer_apellido,segundo_apellido,fecha_nacimiento);
             res.sendStatus(200);
           }
@@ -106,17 +112,17 @@ const pool = new Pool({
     }
      
 //Instanciación
-const model = new Model();
-const controller = new Controller(model);
+const model = new UsrModel();
+const ControlUsr = new UsrController(model);
 
 app.use(express.json());
-app.get("/usuarios", controller.getTodosUsr.bind(controller));
-app.get("/usuarios/:id_usuario", controller.getBuscaUsr.bind(controller));
-app.get("/usuarios/consulta/promedio-edad", controller.getPromUsr.bind(controller));
-app.get("/estado", controller.getVersion.bind(controller));
-app.post("/usuarios", controller.addUsr.bind(controller)); 
-app.put("/usuarios/:id_usuario", controller.updateUsr.bind(controller));
-app.delete("/usuarios/:id_usuario", controller.deleteUsr.bind(controller));
+app.get("/usuarios/promedio-edad", ControlUsr.getPromUsr.bind(ControlUsr));
+app.get("/usuarios", ControlUsr.getTodosUsr.bind(ControlUsr));
+app.get("/usuarios/:id_usuario", ControlUsr.getBuscaUsr.bind(ControlUsr));
+app.get("/estado", ControlUsr.getVersion.bind(ControlUsr));
+app.post("/usuarios", ControlUsr.addUsr.bind(ControlUsr)); 
+app.put("/usuarios/:id_usuario", ControlUsr.updateUsr.bind(ControlUsr));
+app.delete("/usuarios/:id_usuario", ControlUsr.deleteUsr.bind(ControlUsr));
 
 app.listen(port, () => {
     console.log(`Este servidor se ejecuta en http://localhost:${port}`);
