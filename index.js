@@ -7,7 +7,7 @@ const pool = new Pool({
     user: "postgres",
     host: "localhost",
     database: "bdcontrol",
-    password: "ela2006",
+    password: "postgres",
     port: "5432",
   });
 
@@ -18,8 +18,8 @@ const pool = new Pool({
         return rows;
       }
 
-      async getBuscaUsr(id) {
-        const { rows } = await pool.query("select * from usuario where id_usuario = $1;", [id]);
+      async getBuscaUsr(id_usuario) {
+        const { rows } = await pool.query("select * from usuario where id_usuario = $1;", [id_usuario]);
         return rows[0];
       }
 

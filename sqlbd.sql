@@ -7,7 +7,7 @@ create table if not exists usuario (
     fecha_nacimiento DATE NOT NULL
 );
 
-' para insertar datos
+-- para insertar datos
 INSERT INTO usuario (ci, nombre , primer_apellido ,segundo_apellido,fecha_nacimiento)
 VALUES 
   ('5227909', 'Juan','López','Vargas','1980/06/30'),
