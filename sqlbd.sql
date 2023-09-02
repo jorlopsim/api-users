@@ -1,3 +1,4 @@
+CREATE DATABASE bdcontrol;
 create table if not exists usuario (
     id_usuario serial PRIMARY KEY,
     ci VARCHAR(15) NOT NULL,
